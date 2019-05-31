@@ -1,20 +1,21 @@
-#Mission Control program
+# Mission Control program
 from tkinter import *
 import windows
 import xml.etree.ElementTree as ET
-from XML_manager import Mission
 
 class Main_application(object):
-    #main application window
+    # main application window
                 
     def __init__(self,master):
         """initialize the frame."""
         self.master=master
-        self.active_db_path="Database\Active Missions.xml"
+        self.active_db_path="Database/Active_Mission.xml"
         self.frame=Frame(self.master)
         self.create_menu(self.master)
         self.create_widgets(self.master)
         self.print_missions()
+        self.toplevel_edit_mission_window = None
+        self.edit_mission_window = None
         
  
     def create_menu(self,master):
@@ -140,8 +141,8 @@ class Main_application(object):
         self.print_missions()
 
     def create_edit_window(self):
-        self.toplevel_edit_mission_window=Toplevel(self.master)
-        self.edit_mission_window=windows.Edit_window(self.toplevel_edit_mission_window)
+        self.toplevel_edit_mission_window = Toplevel(self.master)
+        self.edit_mission_window = windows.Edit_window(self.toplevel_edit_mission_window,path= self.active_db_path)
         
 
 
@@ -150,6 +151,7 @@ class Main_application(object):
 def main():
     root=Tk()
     root.title("Mission Control")
+    root.geometry("580x450")
     root.geometry("580x450")
     app=Main_application(root)
     root.mainloop()

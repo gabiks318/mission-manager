@@ -141,12 +141,12 @@ class Mission_window(object):
 
 class Edit_window(object):
 
-    def __init__(self,master):
-        self.master=master
-        self.frame=Frame(self.master)
-        self.active_db_path="Database\Active Missions.xml"
-        self.RADIO_BUT=[]
-        self.option=StringVar()
+    def __init__(self, master, path):
+        self.master = master
+        self.frame = Frame(self.master)
+        self.active_db_path = path
+        self.RADIO_BUT = []
+        self.option = StringVar()
         self.create_widgets()
         self.fill_table()
         

@@ -32,16 +32,15 @@ class Mission(object):
         self.due=due
         self.state="A"
         self.classification="true"
-        
 
     def __getFile(self,path):
         tree=ET.parse(path)
         root=tree.getroot()
         return tree,root
         
-    def write(self,path):
+    def write(self, path):
         mission=ET.Element('mission')
-        mission.set('id',self.__get_id())
+        mission.set('id',self.__get_id(path=path))
 
         write_day=ET.SubElement(mission,'day')
         write_day.text=self.date[:2]
@@ -69,9 +68,10 @@ class Mission(object):
         root.append(mission)
         tree.write(path)
 
-    def __get_id(self):
+    def __get_id(self, path):
         tree,root=self.__getFile(path)
         new_id=len(root)+1
+        return str(new_id)
         
     def rewrite(self,path,edit_id):
         tree,root=self.__getFile(path)
