@@ -39,4 +39,4 @@
 	<due>immediate</due>
 	<category>Thermapp</category>
   </mission>
-	<mission id="5"><day>27</day><month>12</month><year>18</year><description>buy a relay</description><state>A</state><classification>true</classification><due>routine</due><category>Roly Car</category></mission><mission id="6"><day>31</day><month>05</month><year>19</year><description>git coursee</description><state>A</state><classification>true</classification><due>routine</due><category>Programming</category></mission></missions>
+	</missions>

@@ -39,21 +39,21 @@ class Mission(object):
         return tree,root
         
     def write(self, path):
-        mission=ET.Element('mission')
+        mission = ET.Element('mission')
         mission.set('id',self.__get_id(path=path))
 
-        write_day=ET.SubElement(mission,'day')
-        write_day.text=self.date[:2]
-        write_month=ET.SubElement(mission,'month')
-        write_month.text=self.date[3:5]
-        write_year=ET.SubElement(mission,'year')
-        write_year.text=self.date[6:]
+        write_day = ET.SubElement(mission,'day')
+        write_day.text = self.date[:2]
+        write_month = ET.SubElement(mission,'month')
+        write_month.text = self.date[3:5]
+        write_year = ET.SubElement(mission,'year')
+        write_year.text = self.date[6:]
         
-        write_description=ET.SubElement(mission,'description')
-        write_description.text=self.description
+        write_description = ET.SubElement(mission,'description')
+        write_description.text = self.description
         
-        write_state=ET.SubElement(mission,'state')
-        write_state.text=self.state
+        write_state = ET.SubElement(mission,'state')
+        write_state.text = self.state
         
         write_classification=ET.SubElement(mission,'classification')
         write_classification.text=self.classification

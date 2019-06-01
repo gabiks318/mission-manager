@@ -30,7 +30,7 @@ class Main_application(object):
                              )
         
     def create_widgets(self,master):
-        row_counter=0 #keep track of the row number
+        row_counter = 0  # keep track of the row number
 
         Label(master,
               text="Mission Control 10,000"
@@ -42,7 +42,7 @@ class Main_application(object):
               ).grid(row=row_counter,column=0,sticky='W')#Immediate missions label
         row_counter+=1
 
-        self.immediate_table=None
+        self.immediate_table = None
         self.immediate_table=windows.Main_Table(master,height=7,width=4,in_row=row_counter,in_column=0)
         self.immediate_table.resize_column(column=2,mod_wid=25)
         row_counter+=self.immediate_table.get_height()
@@ -83,15 +83,15 @@ class Main_application(object):
         self.immediate_table.delete()
         self.routine_table.delete()
         
-        #parse the active missions XML file
-        tree=ET.parse(self.active_db_path)
-        root=tree.getroot()
+        # parse the active missions XML file
+        tree = ET.parse(self.active_db_path)
+        root = tree.getroot()
 
-        #immediate table:
-        i=0 #number of iterations
-        j=1 #table row index number
+        # immediate table:
+        i = 0  # number of iterations
+        j = 1  # table row index number
         
-        while (i<len(root)): 
+        while i < len(root):
          
             #check what type of mission
             if root[i].find('due').text=='routine':
@@ -151,7 +151,6 @@ class Main_application(object):
 def main():
     root=Tk()
     root.title("Mission Control")
-    root.geometry("580x450")
     root.geometry("580x450")
     app=Main_application(root)
     root.mainloop()
