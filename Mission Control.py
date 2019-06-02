@@ -68,15 +68,9 @@ class Main_application(object):
                                   )
         self.append_button.grid(row=row_counter,column=0,sticky='W')
 
-        self.update_button=Button(master,text="Update Missions",command=self.update_missions
-                                  )
-        self.update_button.grid(row=row_counter,column=1,sticky='W')
-
-
-
     def add_mission(self):
         self.toplevel_mission_window=Toplevel(self.master)
-        self.mission_window=windows.Mission_window(self.toplevel_mission_window,self.active_db_path)
+        self.mission_window=windows.Mission_window(self.toplevel_mission_window,self.active_db_path, self)
         
         
     def print_missions(self):
@@ -142,7 +136,8 @@ class Main_application(object):
 
     def create_edit_window(self):
         self.toplevel_edit_mission_window = Toplevel(self.master)
-        self.edit_mission_window = windows.Edit_window(self.toplevel_edit_mission_window,path= self.active_db_path)
+        self.edit_mission_window = windows.Edit_window(self.toplevel_edit_mission_window,path= self.active_db_path,
+                                                       main_window=self)
         
     def create_history_window(self):
         self.toplevel_history_window = Toplevel(self.master)

@@ -80,8 +80,9 @@ class Main_Table(Table):
 
 class Mission_window(object):
 
-    def __init__(self,master,path):
+    def __init__(self,master,path, main_window):
         self.master=master
+        self.main_window = main_window
         self.frame=Frame(self.master)
         self.cat_entry=None
         self.des_entry=None
@@ -141,13 +142,15 @@ class Mission_window(object):
         date1=time.strftime("%d-%m-%y")
         mission=Mission(date=date1,description=des,category=cat,due=self.type.get())
         mission.write(self.path)
+        self.main_window.print_missions()
         self.master.destroy()
 
 
 class Edit_window(object):
 
-    def __init__(self, master, path):
+    def __init__(self, master, path, main_window):
         self.master = master
+        self.main_window = main_window
         self.frame = Frame(self.master)
         self.active_db_path = path
         self.missions_index = {}  # Holds indexing between row number and a mission
@@ -252,7 +255,9 @@ class Edit_window(object):
 
     def edit(self):
         self.toplevel_mission_window = Toplevel(self.master)
-        self.mission_window = Sub_edit_window(self.toplevel_mission_window,self.active_db_path,int(self.option.get()))
+        self.mission_window = Sub_edit_window(self.toplevel_mission_window,self.active_db_path,int(self.option.get()),
+                                              main_window=self.main_window,
+                                              edit_window=self)
 
     def delete_mission(self):
         tree = ET.parse(self.active_db_path)
@@ -262,9 +267,10 @@ class Edit_window(object):
         for mission in root:
             mission_description = mission[3].text
             if description == mission_description:
-                self.__add_mission_to_archive(archive_mission= mission)
+                self.__add_mission_to_archive(archive_mission=mission)
                 root.remove(mission)
         tree.write(self.active_db_path)
+        self.main_window.print_missions()
         self.master.destroy()
 
     def __add_mission_to_archive(self, archive_mission):
@@ -277,7 +283,9 @@ class Edit_window(object):
 
 class Sub_edit_window(object):
 
-    def __init__(self,master,path,idnum):
+    def __init__(self, master, path, idnum, main_window, edit_window):
+        self.main_window = main_window
+        self.edit_window = edit_window
         self.master=master
         self.frame=Frame(self.master)
         self.id=idnum
@@ -339,6 +347,8 @@ class Sub_edit_window(object):
         date1=time.strftime("%d-%m-%y")
         mission=Mission(date=date1,description=des,category=cat,due=self.type.get())
         mission.rewrite(self.path,self.id)
+        self.main_window.print_missions()
+        self.edit_window.master.destroy()
         self.master.destroy()       
 
 
