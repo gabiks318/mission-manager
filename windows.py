@@ -33,8 +33,8 @@ class Table(object):
         self.insert_text(0,content)
 
     def insert_text(self,rownum,content):
-        i=0
-        while i<(self.width):
+        i = 0
+        while i < self.width:
             self.TABLE_CONTENT[rownum][i].config(state=NORMAL)
             self.TABLE_CONTENT[rownum][i].insert(0.0,content[i])
             self.TABLE_CONTENT[rownum][i].config(state=DISABLED)
@@ -206,10 +206,11 @@ class Edit_window(object):
             i += 1
                                
     def fill_table(self):
-        i=0 #number of iterations
-        j=0 #table row index number
-            #immediate missions
-        while (i < len(self.root)):
+        i = 0  # number of iterations
+        j = 0  # table row index number
+
+        # immediate missions
+        while i < len(self.root):
          
             #check what type of mission
             if self.root[i].find('due').text=='routine':
@@ -261,9 +262,18 @@ class Edit_window(object):
         for mission in root:
             mission_description = mission[3].text
             if description == mission_description:
+                self.__add_mission_to_archive(archive_mission= mission)
                 root.remove(mission)
         tree.write(self.active_db_path)
         self.master.destroy()
+
+    def __add_mission_to_archive(self, archive_mission):
+        date = archive_mission[0].text + "-" + archive_mission[1].text + "-" + archive_mission[2].text
+        mission = Mission(date= date,
+                          description=archive_mission[3].text,
+                          category=archive_mission[7].text,
+                          due=archive_mission[6].text)
+        mission.write('Database/Archive.xml')
 
 class Sub_edit_window(object):
 
@@ -331,3 +341,54 @@ class Sub_edit_window(object):
         mission.rewrite(self.path,self.id)
         self.master.destroy()       
 
+
+class Archive(object):
+    # Archive missions window
+
+    def __init__(self, master):
+        self.master = master
+        self.frame = Frame(self.master)
+        self.db_path = 'Database/Archive.xml'
+        self.tree = ET.parse(self.db_path)
+        self.root = self.tree.getroot()
+        self.table = None
+        self.exit_button = None
+        self.create_widgets()
+        self.fill_table()
+
+    def create_widgets(self):
+        row_counter = 0
+        Label(self.master,
+              text='Archived Missions'
+              ).grid(row=row_counter, column=2, sticky='W')
+        row_counter += 2
+
+        self.table = Main_Table(self.master,height= len(self.root)+1,width= 4,in_row = row_counter, in_column=0)
+        self.table.resize_column(column=2,mod_wid=25)
+        row_counter += self.table.get_height() + 1
+
+        self.exit_button = Button(master= self.master, text='Exit',command= self.exit)
+        self.exit_button.grid(row=row_counter,column=1,sticky='W')
+
+    def fill_table(self):
+        i = 0   # number of iterations
+        j = 1   # table row index number
+        self.table.delete()
+
+        while i < len(self.root):
+            cat = self.root[i][7].text
+
+            day = self.root[i][0].text
+            month = self.root[i][1].text
+            year = self.root[i][2].text
+            date = day + '-' + month + '-' + year
+
+            desc = self.root[i][3].text
+
+            content = [cat, date,desc, ""]
+            self.table.insert_text(rownum=j, content=content)
+            i += 1
+            j += 1
+
+    def exit(self):
+        self.master.destroy()

@@ -26,10 +26,10 @@ class Mission(object):
 
     def __init__(self,date,description,category,due):
         """Get the mission's details"""
-        self.date=date
-        self.description=description
-        self.category=category
-        self.due=due
+        self.date = date
+        self.description = description
+        self.category = category
+        self.due = due
         self.state="A"
         self.classification="true"
 

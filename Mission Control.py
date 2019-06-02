@@ -16,17 +16,19 @@ class Main_application(object):
         self.print_missions()
         self.toplevel_edit_mission_window = None
         self.edit_mission_window = None
-        
- 
+        self.toplevel_history_window = None
+        self.history_window = None
+
+
     def create_menu(self,master):
         self.menu=Menu(master)
         master.config(menu=self.menu)
 
         self.file_menu=Menu(self.menu)
         self.menu.add_cascade(label="Menu",menu=self.file_menu)
-        self.file_menu.add_command(label="History"#, command=callback #history window
+        self.file_menu.add_command(label="History",command=self.create_history_window  # history window
                              )
-        self.file_menu.add_command(label="Edit Mission",command=self.create_edit_window #edit mission window
+        self.file_menu.add_command(label="Edit Mission",command=self.create_edit_window  # edit mission window
                              )
         
     def create_widgets(self,master):
@@ -74,9 +76,7 @@ class Main_application(object):
 
     def add_mission(self):
         self.toplevel_mission_window=Toplevel(self.master)
-        #self.add_mission_window.protocol("WM_DELETE_WINDOW",self.print_missions)
         self.mission_window=windows.Mission_window(self.toplevel_mission_window,self.active_db_path)
-        #self.app.frame.bind("<Destroy>",self.print_missions())
         
         
     def print_missions(self):
@@ -107,7 +107,7 @@ class Main_application(object):
                 date=day+"-"+month+"-"+year
 
                 desc=root[i][3].text
-                content=[cat,date,desc,""]#remember to cancel the last element
+                content=[cat,date,desc,""]  # remember to cancel the last element
                 self.immediate_table.insert_text(rownum=j,content=content)
                 i+=1
                 j+=1
@@ -144,8 +144,9 @@ class Main_application(object):
         self.toplevel_edit_mission_window = Toplevel(self.master)
         self.edit_mission_window = windows.Edit_window(self.toplevel_edit_mission_window,path= self.active_db_path)
         
-
-
+    def create_history_window(self):
+        self.toplevel_history_window = Toplevel(self.master)
+        self.history_window = windows.Archive(self.toplevel_history_window)
 
         
 def main():
